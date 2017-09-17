@@ -200,6 +200,18 @@ func (p *parserMixin) EnumsVar(target *[]string, options ...string) {
 	p.SetValue(newEnumsFlag(target, options...))
 }
 
+// Positive allows a positive value.
+func (p *parserMixin) Positive() (target *int) {
+	target = new(int)
+	p.PositiveVar(target)
+	return
+}
+
+// PositiveVar allows a positive value.
+func (p *parserMixin) PositiveVar(target *int) {
+	p.SetValue(newPositiveFlag(target))
+}
+
 // A Counter increments a number each time it is encountered.
 func (p *parserMixin) Counter() (target *int) {
 	target = new(int)

@@ -293,6 +293,22 @@ func TestFlagEnumVar(t *testing.T) {
 	assert.Equal(t, []string{"opt3", "opt4"}, args)
 }
 
+func TestFlagPositiveVar(t *testing.T) {
+	c := newTestApp()
+	var bar int
+
+	a := c.Flag("foo", "foo")
+	a.Positive()
+	b := c.Flag("bar", "bar")
+	b.PositiveVar(&bar)
+
+	args := a.resolveCompletions()
+	assert.NotEqual(t, nil, args)
+
+	args = b.resolveCompletions()
+	assert.NotEqual(t, nil, args)
+}
+
 func TestMultiHintOptions(t *testing.T) {
 	c := newTestApp()
 

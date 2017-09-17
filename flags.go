@@ -246,6 +246,10 @@ func (a *FlagClause) Enum(options ...string) (target *string) {
 	return a.parserMixin.Enum(options...)
 }
 
+func (a *FlagClause) Positive() (target *int) {
+	return a.parserMixin.Positive()
+}
+
 // Default values for this flag. They *must* be parseable by the value of the flag.
 func (f *FlagClause) Default(values ...string) *FlagClause {
 	f.defaultValues = values

@@ -47,6 +47,27 @@ func TestEnumVar(t *testing.T) {
 	assert.Equal(t, "one", a)
 }
 
+func TestPositive(t *testing.T) {
+	app := New("", "")
+	a := app.Arg("a", "").Positive()
+	_, err := app.Parse([]string{"-2"})
+	assert.Error(t, err)
+	_, err = app.Parse([]string{"2"})
+	assert.NoError(t, err)
+	assert.Equal(t, 2, *a)
+}
+
+func TestPositiveVar(t *testing.T) {
+	app := New("", "")
+	var a int
+	app.Arg("a", "").PositiveVar(&a)
+	_, err := app.Parse([]string{"-2"})
+	assert.Error(t, err)
+	_, err = app.Parse([]string{"2"})
+	assert.NoError(t, err)
+	assert.Equal(t, 2, a)
+}
+
 func TestCounter(t *testing.T) {
 	app := New("", "")
 	c := app.Flag("f", "").Counter()

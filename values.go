@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"strconv"
 
 	"github.com/alecthomas/units"
 )
@@ -400,6 +401,33 @@ func (s *enumsValue) String() string {
 
 func (s *enumsValue) IsCumulative() bool {
 	return true
+}
+
+// A flag whose value must be positive.
+type positiveValue struct {
+	value   *int
+}
+
+func newPositiveFlag(target *int) *positiveValue {
+	return &positiveValue{
+		value:   target,
+	}
+}
+
+func (s *positiveValue) Set(value string) error {
+	convertedValue, err := strconv.Atoi(value)
+	if err != nil {
+		return fmt.Errorf("positive value, cannot convert '%s' to int", value)
+	}
+	if convertedValue >= 0 {
+		*s.value = convertedValue
+		return nil
+	}
+	return fmt.Errorf("positive value must be greater or equal to 0")
+}
+
+func (s *positiveValue) String() string {
+	return strconv.Itoa(*s.value)
 }
 
 // -- units.Base2Bytes Value
